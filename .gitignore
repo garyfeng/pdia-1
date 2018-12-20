@@ -1,0 +1,17 @@
+*.xml
+*.csv
+*.idea/workspace.xml
+.idea/workspace.xml
+*.DS_Store
+.DS_Store
+/build/
+/dist/
+/bad.idea/
+/.idea/
+.idea\*
+.Rproj.user
+.Rhistory
+.RData
+*.pyc
+pdia.egg-info/
+.ipynb_checkpoints
