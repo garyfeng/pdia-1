@@ -9,7 +9,9 @@ Princeton, NJ
 ----
 
 
-`pdia` began in 2015 as a python library to process and analyze the process data (aka proc data, observables, or action logs) from the NAEP digitally-based assessments (DBAs). It provides functions to read the NAEP process data from a variety sources, convert and parse them to Pandas data frames, and visualize and report on the data.
+`pdia` began in 2015 as a python library to process and analyze the process data (aka observables, or action 
+logs) from the NAEP digitally-based assessments (DBAs). It provides functions to read the NAEP process data from a 
+variety sources, pre-process and parse them to Pandas data frames, and visualize and report on the data.
 
 ----
 
@@ -51,6 +53,8 @@ This will (re)generate `$path/requirements.txt` file.
 Then
 
 ```bash
+conda install sphinx
+
 cd $pdia_root$
 sphinx-apidoc -o ./docs/source -f -e .
 cd ./docs

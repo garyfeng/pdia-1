@@ -6,9 +6,10 @@ from pdia import logger
 
 def extractSbtResponseXML(itemResult, headerDict):
     """Given a XML node "itemResult", return a list of responses
+
     :param itemResult: a xml.etree node that is itemResult
     :param headerDict: a dictionary with student-level information such as teh BookletNumber, etc.
-    :return a list of dicts or None
+    :returns: a list of dicts or None
     """
     responseMatrix = []
     try:
@@ -63,8 +64,8 @@ def parsePearsonResponseXML(source):
     """
     Parse Pearson response XMLs, using XPath.
 
-    Naming following the SQL:
-    ```
+    Naming following the SQL::
+
         [ItemResponse].[ItemResponseId],
         Subject.SubjectCode,
         Assessment.AssessedGroupId as Grade,
@@ -74,25 +75,23 @@ def parsePearsonResponseXML(source):
         ItemType.ItemTypeCode,
         [ItemResponse].[Response],
         [ItemResponse].[IsAnswered]
-    ```
 
     We are adding a few new columns:
 
-    - `ChildItemAccessionNumber`: native for some eNAEP; for SBT type,
-    ```
-    'ChildItemAccessionNumber': sceneId
-    ```
-    - `ChildItemType`: native for some eNAEP; for SBT type,
-    ```
-    'ChildItemType': responseType
-    ```
-    - `ResponseComponentId`: native for SBT style data; for eNAEP, it is a combination of AccNum and childAccNum
+    - ``ChildItemAccessionNumber``: native for some eNAEP; for SBT type::
 
-    ```
-    'ResponseComponentId': "item-{}".format(accessionNumber) \
-            if childItemAccessionNumber is None else \
-            "item-{}-{}".format(accessionNumber, childItemAccessionNumber),
-    ```
+        'ChildItemAccessionNumber': sceneId
+
+    - ``ChildItemType``: native for some eNAEP; for SBT type::
+
+        'ChildItemType': responseType
+
+    - ``ResponseComponentId``: native for SBT style data; for eNAEP, it is a combination of AccNum and childAccNum::
+
+        'ResponseComponentId': "item-{}".format(accessionNumber)\\
+                if childItemAccessionNumber is None else\\
+                "item-{}-{}".format(accessionNumber, childItemAccessionNumber),
+
 
     :param source: the XML string or a XML node
     :return: a data frame or None
