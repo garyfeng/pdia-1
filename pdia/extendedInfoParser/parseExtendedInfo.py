@@ -1,11 +1,12 @@
 import pandas as pd
 
-errorCode = "ParsingError"
+errorCode = {"Error": "ParsingError"}
 
 from pdia.extendedInfoParser.parseCalculatorEvents import parseCalculatorEvents, parseCalculatorBuffer
 from pdia.extendedInfoParser.parseClickProgressEvents import parseClickEvents
 from pdia.extendedInfoParser.parseDropChoiceEvents import parseDropChoice
-from pdia.extendedInfoParser.parseEquationEditorEvents import parseEquationEditorEvents
+from pdia.extendedInfoParser.parseEquationEditorEvents \
+    import parseEquationEditorEvents, parseEquationEditorButtonEvents, parseMathKeypressEvents
 from pdia.extendedInfoParser.parseJSONObservables import parseJSONObservables
 from pdia.extendedInfoParser.parseYesNo import parseYesNo
 from pdia.extendedInfoParser.parseKeyValuePairs import parseNameValuePairs
@@ -95,10 +96,6 @@ def parseExtendedInfo(df,
                 "TextToSpeech": parseTTSEvents,
                 "nothing": parseDefault,
                 "Menu Thesaurus": parseThesaurus,
-                "Open Calculator": parseCalculatorEvents,
-                "Close Calculator": parseCalculatorEvents,
-                "Move Calculator": parseCalculatorEvents,
-                "Calculator Buffer": parseCalculatorBuffer,
                 "First Text Change": parseTextChange,
                 "Last Text Change": parseTextChange,
                 "Text Entered": parseTextChange,
@@ -111,7 +108,15 @@ def parseExtendedInfo(df,
                 "Receive Focus": parseFocus,
                 "Click Progress Navigator": parseClickEvents,
                 "Media Interaction": parseMediaInteraction,
-                "Equation Editor Button": parseEquationEditorEvents,
+
+                "Open Calculator": parseCalculatorEvents,
+                "Close Calculator": parseCalculatorEvents,
+                "Move Calculator": parseCalculatorEvents,
+                "Calculator Buffer": parseCalculatorBuffer,
+                "Calculator Keystroke Logging"
+                "Equation Editor Button": parseEquationEditorButtonEvents,
+                "Math Keypress": parseMathKeypressEvents,
+
                 "Activate Footnoter": parseNameValuePairs,
                 "Dismiss Footnoter": parseNameValuePairs,
                 "Next Passage Page Swipe": parsePassageEvents,
@@ -150,13 +155,13 @@ def parseExtendedInfo(df,
 
     # now let's revert the config, to get `parser:[list of labels]`
     funcMap = {}
-    for k, v in config["handlers"].items():
+    for k, v in config["handlers"].iteritems():
         funcMap[v] = funcMap.get(v, []) + [k]
 
     # clear outInfo
     df.loc[:, outInfo] = None
     # we now loop through all funcMap elements and do the conversion
-    for parser, eventList in funcMap.items():
+    for parser, eventList in funcMap.iteritems():
         idx = df.loc[:, label].isin(eventList)
         # df.loc[idx,outInfo]=np.where((df.loc[idx, extInfo]==errorCode),\
         # df.loc[idx,"ExtendedInfo"],parser(df.loc[idx, extInfo]))
