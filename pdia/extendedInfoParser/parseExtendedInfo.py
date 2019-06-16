@@ -2,11 +2,12 @@ import pandas as pd
 
 errorCode = {"Error": "ParsingError"}
 
-from pdia.extendedInfoParser.parseCalculatorEvents import parseCalculatorEvents, parseCalculatorBuffer
+from pdia.extendedInfoParser.parseCalculatorEvents import parseCalculatorEvents, \
+    parseCalculatorBuffer
 from pdia.extendedInfoParser.parseClickProgressEvents import parseClickEvents
 from pdia.extendedInfoParser.parseDropChoiceEvents import parseDropChoice
-from pdia.extendedInfoParser.parseEquationEditorEvents \
-    import parseEquationEditorEvents, parseEquationEditorButtonEvents, parseMathKeypressEvents
+from pdia.extendedInfoParser.parseEquationEditorEvents import \
+    parseEquationEditorEvents, parseEquationEditorButtonEvents, parseMathKeypressEvents
 from pdia.extendedInfoParser.parseJSONObservables import parseJSONObservables
 from pdia.extendedInfoParser.parseYesNo import parseYesNo
 from pdia.extendedInfoParser.parseKeyValuePairs import parseNameValuePairs
@@ -113,7 +114,7 @@ def parseExtendedInfo(df,
                 "Close Calculator": parseCalculatorEvents,
                 "Move Calculator": parseCalculatorEvents,
                 "Calculator Buffer": parseCalculatorBuffer,
-                "Calculator Keystroke Logging"
+                "Calculator Keystroke Logging": parseCalculatorKeystrokeLoggingEvents,
                 "Equation Editor Button": parseEquationEditorButtonEvents,
                 "Math Keypress": parseMathKeypressEvents,
 
@@ -155,13 +156,13 @@ def parseExtendedInfo(df,
 
     # now let's revert the config, to get `parser:[list of labels]`
     funcMap = {}
-    for k, v in config["handlers"].iteritems():
+    for k, v in config["handlers"].items():
         funcMap[v] = funcMap.get(v, []) + [k]
 
     # clear outInfo
     df.loc[:, outInfo] = None
     # we now loop through all funcMap elements and do the conversion
-    for parser, eventList in funcMap.iteritems():
+    for parser, eventList in funcMap.items():
         idx = df.loc[:, label].isin(eventList)
         # df.loc[idx,outInfo]=np.where((df.loc[idx, extInfo]==errorCode),\
         # df.loc[idx,"ExtendedInfo"],parser(df.loc[idx, extInfo]))

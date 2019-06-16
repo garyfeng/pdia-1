@@ -21,6 +21,11 @@ def parseJsonDatum(js, flatten=True):
     if isinstance(js, dict):
         return js
 
+    try:
+        basestring
+    except NameError:
+        basestring = str
+
     if not isinstance(js, basestring):
         return None
 
