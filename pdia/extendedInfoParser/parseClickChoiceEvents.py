@@ -19,7 +19,7 @@ def parseClickChoiceEvents(eInfo):
     assert (isinstance(eInfo, pd.Series))
 
     def parseChoiceString(s):
-        res = re.match('(VH[0-9]+)([A-Z]*)-([iv]+)[:]([0-9]+):([a-z]+)', s)
+        res = re.match('(VH[0-9]+)([A-Z]*)-([iv]*)[:]*([0-9]+):([a-z]+)', s)
         if res is None: return None
         # turn this into a dict
         try:
