@@ -3,7 +3,7 @@ import pandas as pd
 errorCode = {"Error": "ParsingError"}
 
 from pdia.extendedInfoParser.parseCalculatorEvents import parseCalculatorEvents, \
-    parseCalculatorBuffer
+    parseCalculatorBuffer, parseCalculatorKeystrokeLoggingEvents
 from pdia.extendedInfoParser.parseClickChoiceEvents import parseClearAnswerEvents, parseClickChoiceEvents
 from pdia.extendedInfoParser.parseClickProgressEvents import parseClickProgressEvents
 from pdia.extendedInfoParser.parseDropChoiceEvents import parseDropChoice

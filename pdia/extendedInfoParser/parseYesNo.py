@@ -28,7 +28,7 @@ def parseYesNo(eInfo):
             else:
                 # string, assuming comma delimited
                 data = s.split(", ")
-                r = {"Event": data[0], "Language", data[1]}
+                r = {"Event": data[0], "Language": data[1]}
         except:
             r = errorCode
         return r
