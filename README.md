@@ -29,7 +29,23 @@ We recommend the following setup in your system:
 
 ### Recommended: docker installation
 
-- TODO: [add text about docker]
+`pdia` comes with its `dockerfile`. Following the `Readme.md` file in the `\docker\` directory to build the 
+docker images and to launch them using one of the batch files for Windows or Macs. This will launch the 
+appropriate docker containers of your choice, and open a browser window pointing to the notebook folder `work`. 
+You should now be able to run the notebook using the python engine and libraries provided by the docker image.
+
+Note:
+- We currently provide several docker images for python2 and python3, and some experimental configurations. When
+in doubt, choose the `master`.
+- for security reasons, the notebook will run as a non-root user (`jovyan`). If you wish to manually install new
+libraries or to modify the python environment that requires the root access, do the following:
+  - start a new terminal window (because the one that launched the docker/notebook must be kept running)
+  - find out the tag/name of the docker image that is running. You can either do `docker ps`, or you may be
+  able to find that by inspecting the messages from the terminal that launched the notebook ... the tag may
+  look something like `pdj-1-py3`. 
+  - log in as `root` using `docker exec -u 0 -it <pdia image tag> bash`, where `<pdia image tag>` is your 
+  docker image tag/name above.
+  - if that's successful, you can now do something like `python setup.py install`, or `pip`, etc.
 
 ## Generating requirements.txt
 

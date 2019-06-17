@@ -4,10 +4,14 @@ errorCode = {"Error": "ParsingError"}
 
 from pdia.extendedInfoParser.parseCalculatorEvents import parseCalculatorEvents, \
     parseCalculatorBuffer
-from pdia.extendedInfoParser.parseClickProgressEvents import parseClickEvents
+from pdia.extendedInfoParser.parseClickChoiceEvents import parseClearAnswerEvents, parseClickChoiceEvents
+from pdia.extendedInfoParser.parseClickProgressEvents import parseClickProgressEvents
 from pdia.extendedInfoParser.parseDropChoiceEvents import parseDropChoice
+from pdia.extendedInfoParser.parseDifferentialKeystrokeLogging import parseDifferentialKeystrokeLogging
 from pdia.extendedInfoParser.parseEquationEditorEvents import \
-    parseEquationEditorEvents, parseEquationEditorButtonEvents, parseMathKeypressEvents
+    parseEquationEditorEvents, parseEquationEditorButtonEvents, parseMathKeypressEvents,\
+    parseCloseEquationEditorEvents, parseOpenEquationEditorEvents
+from pdia.extendedInfoParser.parseIICObservables import parseIICObservables
 from pdia.extendedInfoParser.parseJSONObservables import parseJSONObservables
 from pdia.extendedInfoParser.parseYesNo import parseYesNo
 from pdia.extendedInfoParser.parseKeyValuePairs import parseNameValuePairs
@@ -82,42 +86,74 @@ def parseExtendedInfo(df,
     if config is None:
         config = {
             "handlers": {
-                "Pilot Observables": parseJSONObservables,
-                "Keypress": parseJSONObservables,
+                # No extended info
+                # "Enter Item": parseDefault,
+                # "Exit Item": parseDefault,
+                # "Next": parseDefault,
+                # "Back": parseDefault,
+                # 'Display Reminder': parseDefault,
+                # 'Application Recovery': parseDefault,
+                # "Leave Section": parseDefault,
+                # "Show Timer": parseDefault,
+                # "Hide Timer": parseDefault
+
+                # common eNAEP events
+                "OK": parseYesNo,
+                "None": parseDropChoice,
                 'Horizontal Item Scroll': parseItemScrollEvents,
                 'Vertical Item Scroll': parseItemScrollEvents,
                 'Item Bottom Reached': parseItemBottomReachedEvents,
-                'Increase Zoom': parseZoomEvents,
-                'Decrease Zoom': parseZoomEvents,
-                "Misspellings Corrected": parseJSONObservables,
-                "Misspellings Identified": parseJSONObservables,
-                "RightClick Misspellings": parseJSONObservables,
-                "Thesaurus Replacement": parseJSONObservables,
-                "Change Theme": parseThemeEvents,
-                "TextToSpeech": parseTTSEvents,
                 "nothing": parseDefault,
-                "Menu Thesaurus": parseThesaurus,
-                "First Text Change": parseTextChange,
-                "Last Text Change": parseTextChange,
-                "Text Entered": parseTextChange,
-                "Clear Answer": parseNameValuePairs,
-                "Click Choice": parseNameValuePairs,
-                "Eliminate Choice": parseNameValuePairs,
                 "Yes": parseYesNo,
                 "No": parseYesNo,
                 "Lose Focus": parseFocus,
                 "Receive Focus": parseFocus,
-                "Click Progress Navigator": parseClickEvents,
+                "Click Progress Navigator": parseClickProgressEvents,
                 "Media Interaction": parseMediaInteraction,
 
+                # Universal Design tools
+                'Increase Zoom': parseZoomEvents,
+                'Decrease Zoom': parseZoomEvents,
+                "Change Theme": parseThemeEvents,
+                "TextToSpeech": parseTTSEvents,
+
+                # Scratchwork
+                "Scratchwork Mode On": parseNameValuePairs,
+                "Scratchwork Highlight Mode On": parseNameValuePairs,
+                "Clear Scratchwork": parseNameValuePairs,
+                "Scratchwork Mode Off": parseNameValuePairs,
+                "Scratchwork Draw Mode Off": parseNameValuePairs,
+                "Scratchwork Draw Mode On": parseNameValuePairs,
+                "Scratchwork Erase Mode On": parseNameValuePairs,
+                "Scratchwork Erase Mode Off": parseNameValuePairs,
+                "Scratchwork Highlight Mode Off": parseNameValuePairs,
+                "Draw": parseNameValuePairs,
+                "Erase": parseNameValuePairs,
+                "Highlight": parseNameValuePairs,
+
+                # common item responses
+                "DropChoice": parseDropChoice,
+                "Click Choice": parseClickChoiceEvents,
+                "Eliminate Choice": parseClickChoiceEvents,
+                "Clear Answer": parseClearAnswerEvents,
+                "Text Entered": parseTextChange,
+                # "First Text Change": parseTextChange,
+                # "Last Text Change": parseTextChange,
+                "Differential Keystroke Logging": parseDifferentialKeystrokeLogging,
+                "IIC Observables": parseIICObservables,
+
+                # Math
                 "Open Calculator": parseCalculatorEvents,
                 "Close Calculator": parseCalculatorEvents,
                 "Move Calculator": parseCalculatorEvents,
                 "Calculator Buffer": parseCalculatorBuffer,
                 "Calculator Keystroke Logging": parseCalculatorKeystrokeLoggingEvents,
+                "Open Equation Editor": parseOpenEquationEditorEvents,
+                "Close Equation Editor": parseCloseEquationEditorEvents,
                 "Equation Editor Button": parseEquationEditorButtonEvents,
                 "Math Keypress": parseMathKeypressEvents,
 
+                # Reading
                 "Activate Footnoter": parseNameValuePairs,
                 "Dismiss Footnoter": parseNameValuePairs,
                 "Next Passage Page Swipe": parsePassageEvents,
@@ -128,29 +164,16 @@ def parseExtendedInfo(df,
                 "Click Passage Tab": parsePassageEvents,
                 "Show Questions Panel": parseNameValuePairs,
                 "Hide Questions Panel": parseNameValuePairs,
-                "Leave Section": parseNameValuePairs,
-                "Scratchwork Mode On": parseNameValuePairs,
-                "Scratchwork Highlight Mode On": parseNameValuePairs,
-                "Highlight": parseNameValuePairs,
-                "Clear Scratchwork": parseNameValuePairs,
-                "Scratchwork Mode Off": parseNameValuePairs,
-                "Scratchwork Draw Mode Off": parseNameValuePairs,
-                "Scratchwork Draw Mode On": parseNameValuePairs,
-                "Scratchwork Erase Mode On": parseNameValuePairs,
-                "Scratchwork Erase Mode Off": parseNameValuePairs,
-                "Scratchwork Highlight Mode Off": parseNameValuePairs,
                 "Click Look-back Button": parseNameValuePairs,
-                "Draw": parseNameValuePairs,
-                "Erase": parseNameValuePairs,
-                "OK": parseYesNo,
-                "Enter Item": parseNameValuePairs,
-                "Exit Item": parseNameValuePairs,
-                "DropChoice": parseDropChoice,
-                "None": parseDropChoice,
-                "Next": parseJSONObservables,
-                "Back": parseJSONObservables,
-                "Show Timer": parseJSONObservables,
-                "Hide Timer": parseJSONObservables
+
+                # Writing
+                "Pilot Observables": parseJSONObservables,
+                "Keypress": parseJSONObservables,
+                "Misspellings Corrected": parseJSONObservables,
+                "Misspellings Identified": parseJSONObservables,
+                "RightClick Misspellings": parseJSONObservables,
+                "Thesaurus Replacement": parseJSONObservables,
+                "Menu Thesaurus": parseThesaurus,
             }
         }
 

@@ -5,20 +5,34 @@ from pdia.extendedInfoParser.parseExtendedInfo import errorCode
 
 def parseTTSEvents(eInfo):
     """Return the Text-to-speech events
+
+    ExtendedInfo in TTS events is typically a string of the following kind:
+    - "TextToSpeech Mode On"
+    - "TextToSpeech Mode Off"
+    - "TextToSpeech Mode Read: Scale one. Scale two. ..."
+
+    We return:
+    - {"TTS":"On"}, {"TTS":"Off"}
+    - {"TTSRead":"..."}
+
+    :param eInfo: a Pandas series containing ExtendedInfo events
+    :return: a parsed series of JSON/DICT objects, or errorCode if error    
     """
     # there are 3 kinds of events:
     # TextToSpeech Read: TextToSpeechMode On
     # TextToSpeech Read: TextToSpeechMode Off
     # TextToSpeech Read: The actual text being read...
     assert (isinstance(eInfo, pd.Series))
-    # get rid of junk
+
+    def parseTTSString(s):
+        if not isinstance(s, str): return None
+        if s == "TextToSpeech Mode On": return {"TTS":"On"}
+        if s == "TextToSpeech Mode Off": return {"TTS":"Off"}
+        return {"TTSRead":"{}".format(s.replace("TextToSpeech Read: ", ""))}
+
     try:
         # need to check the format first
-        eInfo = eInfo.str.replace("TextToSpeech Read: ", "").str.replace("TextToSpeechMode ", "")
-        res = eInfo.apply(lambda x: {"TTS": x})
-    # return the content, or "On" or "Off"
+        res = eInfo.apply(parseTTSString)
     except:
-        #        print "\nWarning: parseTTSEvents: some rows of ExtendedInfo cannot be parsed"
-        #        return parseDefault(eInfo)
         res = eInfo.apply(lambda x: errorCode)
     return res

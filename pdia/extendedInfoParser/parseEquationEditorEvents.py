@@ -73,10 +73,48 @@ def parseEquationEditorButtonEvents(eInfo):
         res = eInfo.apply(lambda x: errorCode)
     return res
 
+def parseOpenEquationEditorEvents(eInfo):
+    """ parse Open Equation Editor events
 
+    The ExtendedInfo field of this event has no information. The equation editor can only be
+    activated using the eNAEP Toolbar.
+
+    We will return a JSON of the following format:
+    {"EquationEditorStatus":"ON", "EquationEditorInvokationMethod":"Toolbar"}
+
+    :param eInfo: a Pandas series containing ExtendedInfo for "Equation Editor Button" events
+    :return: a parsed series of JSON/DICT objects, or errorCode if error
+    """
+    assert (isinstance(eInfo, pd.Series))
+    try:
+        res = eInfo.apply(lambda x: {"EquationEditorStatus":"ON", "EquationEditorInvokationMethod":"Toolbar"})
+    except:
+        res = eInfo.apply(lambda x: errorCode)
+    return res
+
+def parseCloseEquationEditorEvents(eInfo):
+    """ parse Close Equation Editor events
+
+    The ExtendedInfo field of this event can have two values as strings:
+    - Close: it's simply closed, e.g., clicking outside of the input filed
+    - Toolbar: closed by clicking on the equation editor icon on the eNAEP toolbar
+
+    We will return a JSON of the following format:
+    {"EquationEditorStatus":"OFF", "EquationEditorInvokationMethod":"Toolbar"}
+
+    :param eInfo: a Pandas series containing ExtendedInfo for "Equation Editor Button" events
+    :return: a parsed series of JSON/DICT objects, or errorCode if error
+    """
+    assert (isinstance(eInfo, pd.Series))
+    try:
+        res = eInfo.apply(lambda x: {"EquationEditorStatus":"OFF", \
+            "EquationEditorInvokationMethod":"{}".format(x)})
+    except:
+        res = eInfo.apply(lambda x: errorCode)
+    return res
 
 def parseEquationEditorEvents(eInfo):
-    """ Placeholder parser for equation events. Depreciated"""
+    """ Placeholder parser for equation events. Deprecated"""
     assert (isinstance(eInfo, pd.Series))
     try:
         res = eInfo.apply(lambda x: {"EquationEditorEvent": x})
