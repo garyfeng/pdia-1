@@ -38,7 +38,7 @@ def parseMathKeypressEvents(eInfo):
 
     assert (isinstance(eInfo, pd.Series))
     try:
-        eInfo = eInfo.str.replace('"code"', '"mathKeyName')
+        eInfo = eInfo.str.replace('"code"', '"mathKeyName"')
         res = eInfo.apply(parseJsonDatum)
     except:
         #        print "\nWarning: parseMediaEvents: some rows of ExtendedInfo cannot be parsed"
