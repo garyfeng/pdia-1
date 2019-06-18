@@ -22,5 +22,5 @@ def parseDropChoice(eInfo):
     try:
         res = eInfo.apply(parseXMLContentDatum)
     except:
-        res = eInfo.apply(parseJsonDatum)
+        res = eInfo.apply(parseJsonDatum, flatten=False)
     return {"DropChoiceResponse": res}

@@ -30,7 +30,7 @@ def parseMathKeypressEvents(eInfo):
     #      'contentLaTeX':'$\\mathrm{If}$',
     #      'code':'KeyI',
     #      'value':'I'}"
-    Note that we renamed the field 'code' as 'mathKeyName'
+    Note that we renamed the field 'code' as 'EquationEditorKeyName'
 
     :param eInfo: a Pandas series containing ExtendedInfo for "Equation Editor Button" events
     :return: a parsed series of JSON/DICT objects, or errorCode if error
@@ -38,7 +38,10 @@ def parseMathKeypressEvents(eInfo):
 
     assert (isinstance(eInfo, pd.Series))
     try:
-        eInfo = eInfo.str.replace('"code"', '"mathKeyName"')
+        eInfo = eInfo.str.replace('"code"', '"EquationEditorKeyName"')\
+            .str.replace('"value"', '"EquationEditorKeyChar"')\
+            .str.replace('"partId"', '"ItemPart"')\
+            .str.replace('"numericIdentifier"', '"ItemPartNumber"')
         res = eInfo.apply(parseJsonDatum)
     except:
         #        print "\nWarning: parseMediaEvents: some rows of ExtendedInfo cannot be parsed"
@@ -65,7 +68,7 @@ def parseEquationEditorButtonEvents(eInfo):
 
     assert (isinstance(eInfo, pd.Series))
     try:
-        eInfo = eInfo.str.replace('"what"', '"equationEditorButtonName')
+        eInfo = eInfo.str.replace('"what"', '"equationEditorButtonName"')
         res = eInfo.apply(parseJsonDatum)
     except:
         #        print "\nWarning: parseMediaEvents: some rows of ExtendedInfo cannot be parsed"

@@ -17,6 +17,11 @@ from pdia.extendedInfoParser.parseYesNo import parseYesNo
 from pdia.extendedInfoParser.parseKeyValuePairs import parseNameValuePairs
 from pdia.extendedInfoParser.parseMediaEvents import parseMediaInteraction
 from pdia.extendedInfoParser.parseReadingPassageEvents import parsePassageEvents
+from pdia.extendedInfoParser.parseScratchworkEvents import \
+    parseScratchworkModeOnEvents, parseScratchworkModeOffEvents,\
+    parseScratchworkDrawModeOnEvents, parseScratchworkDrawModeOffEvents,\
+    parseScratchworkEraseModeOnEvents, parseScratchworkEraseModeOffEvents,\
+    parseScratchworkHighlightModeOnEvents, parseScratchworkHighlightModeOffEvents
 from pdia.extendedInfoParser.parseScrollingEvents import parseItemScrollEvents
 from pdia.extendedInfoParser.parseItemBottomReachedEvents import parseItemBottomReachedEvents
 from pdia.extendedInfoParser.parseTTSEvents import parseTTSEvents
@@ -118,18 +123,18 @@ def parseExtendedInfo(df,
                 "TextToSpeech": parseTTSEvents,
 
                 # Scratchwork
-                "Scratchwork Mode On": parseNameValuePairs,
-                "Scratchwork Highlight Mode On": parseNameValuePairs,
-                "Clear Scratchwork": parseNameValuePairs,
-                "Scratchwork Mode Off": parseNameValuePairs,
-                "Scratchwork Draw Mode Off": parseNameValuePairs,
-                "Scratchwork Draw Mode On": parseNameValuePairs,
-                "Scratchwork Erase Mode On": parseNameValuePairs,
-                "Scratchwork Erase Mode Off": parseNameValuePairs,
-                "Scratchwork Highlight Mode Off": parseNameValuePairs,
-                "Draw": parseNameValuePairs,
-                "Erase": parseNameValuePairs,
-                "Highlight": parseNameValuePairs,
+                "Scratchwork Mode On": parseScratchworkModeOnEvents,
+                "Scratchwork Mode Off": parseScratchworkModeOffEvents,
+                "Scratchwork Draw Mode On": parseScratchworkDrawModeOnEvents,
+                "Scratchwork Draw Mode Off": parseScratchworkDrawModeOffEvents,
+                "Scratchwork Erase Mode On": parseScratchworkEraseModeOnEvents,
+                "Scratchwork Erase Mode Off": parseScratchworkEraseModeOffEvents,
+                "Scratchwork Highlight Mode On": parseScratchworkHighlightModeOnEvents,
+                "Scratchwork Highlight Mode Off": parseScratchworkHighlightModeOffEvents,
+                # "Clear Scratchwork": parseNameValuePairs,
+                # "Draw": parseNameValuePairs,
+                # "Erase": parseNameValuePairs,
+                # "Highlight": parseNameValuePairs,
 
                 # common item responses
                 "DropChoice": parseDropChoice,

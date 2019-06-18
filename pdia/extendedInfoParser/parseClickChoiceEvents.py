@@ -8,10 +8,10 @@ def parseClickChoiceEvents(eInfo):
     """ parse Click Choice and Eliminate Choice events 
 
     The ExtendedInfo contains a string like "VH854750A-2:checked", in which case we will return
-    {"AccNum":"VH854750", "ItemPart": "A", "SubItem": "", "ItemOption":"2", "OptionStatus":"checked"}
+    {"AccNum":"VH854750", "ItemPart": "A", "ItemSubPart": "", "ItemOption":"2", "ItemOptionStatus":"checked"}
 
     The most complex case is "VH507370A-ii:4:checked"
-    {"AccNum":"VH507370", "ItemPart": "A", "SubItem": "ii", "ItemOption":"4", "OptionStatus":"checked"}
+    {"AccNum":"VH507370", "ItemPart": "A", "ItemSubPart": "ii", "ItemOption":"4", "ItemOptionStatus":"checked"}
 
     :param eInfo: a Pandas series containing ExtendedInfo events
     :return: a parsed series of JSON/DICT objects, or errorCode if error
@@ -24,7 +24,7 @@ def parseClickChoiceEvents(eInfo):
         # turn this into a dict
         try:
             r = dict([(a, b) for a, b in \
-                zip(["AccNum", "ItemPart", "SubItem", "ItemOption", "OptionStatus"],\
+                zip(["AccNum", "ItemPart", "ItemSubPart", "ItemOption", "ItemOptionStatus"],\
                 res.groups())])
         except:
             return None
@@ -49,7 +49,7 @@ def parseClearAnswerEvents(eInfo):
 
     def parseClearAnswerString(s):
         r = s.replace("Part ", "") if isinstance(s, str) else ""
-        return {"ItemPart": "{}".format(r), "OptionStatus":"cleared"}
+        return {"ItemPart": "{}".format(r), "ItemOptionStatus":"cleared"}
 
     try:
         res = eInfo.apply(parseClearAnswerString)

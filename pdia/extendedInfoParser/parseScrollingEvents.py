@@ -16,15 +16,13 @@ def parseItemScrollEvents(eInfo):
     try:
         parsed = eInfo.str.split(",[ ]*")
         res = [{"zoomLevel": z,
-                "direction": d,
-                "method": m,
-                "area": a,
-                "vScroll": v,
-                "hScroll": h
+                "ScrollDirection": d,
+                "ScrollMethod": m,
+                "ScrollArea": a,
+                "ScrollPixelsY": v,
+                "ScrollPixelsX": h
                 } for (z, d, m, a, v, h) in parsed]
     except:
-        #        print "\nWarning: parseItemScrollEvents(): some rows of ExtendedInfo cannot be parsed"
-        #        return parseDefault(eInfo)
         res = eInfo.apply(lambda x: errorCode)
     return res
 

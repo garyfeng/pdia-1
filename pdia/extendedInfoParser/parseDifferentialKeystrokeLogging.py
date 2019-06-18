@@ -15,7 +15,8 @@ def parseDifferentialKeystrokeLogging(eInfo):
     - string to delete; always insert before delete
 
     We return the following structure
-    {"t":xxx, "p": xxx, "i":xxx, "d":xxx}
+    {"t":xxx, "KeystrokePosition": xxx, "KeystrokeInsStr":xxx, 
+    "KeystrokeDelStr":xxx}
 
     Note that in the original coding, an empty string for insertion or deletion
     becomes `'""'` after conversion. This is wrong; it's meant to be `''`. We fixed
@@ -31,9 +32,9 @@ def parseDifferentialKeystrokeLogging(eInfo):
             data = parseJsonDatum(s, flatten=False)
             r = {
                 "t": str(pd.to_datetime(data[0],unit='ms')),
-                "p": data[1],
-                "i": data[2].replace('""', ''),
-                "d": data[3].replace('""', ''),
+                "KeystrokePosition": data[1],
+                "KeystrokeInsStr": data[2].replace('""', ''),
+                "KeystrokeDelStr": data[3].replace('""', ''),
                   }
         except:
             return errorCode

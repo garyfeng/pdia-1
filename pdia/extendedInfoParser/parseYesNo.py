@@ -24,11 +24,12 @@ def parseYesNo(eInfo):
         try:
             if s.startswith("{"):
                 # JSON format
+                s.replace("u'Event'", "u'DialogueEvent'")
                 r = parseJsonDatum(s)
             else:
                 # string, assuming comma delimited
                 data = s.split(", ")
-                r = {"Event": data[0], "Language": data[1]}
+                r = {"DialogueEvent": data[0], "Language": data[1]}
         except:
             r = errorCode
         return r
