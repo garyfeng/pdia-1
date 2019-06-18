@@ -1,5 +1,6 @@
 import pandas as pd
 
+from pdia.utils.flatten_dict import flatten_dict
 from pdia.extendedInfoParser.parseExtendedInfo import errorCode
 from pdia.extendedInfoParser.parseJSON import parseJsonDatum
 
@@ -76,9 +77,7 @@ def parseIICObservables(eInfo):
         return flatten_dict(res)
         
     try:
-        res = eInfo.apply(lambda x: parseIICString(x))
+        res = eInfo.apply(parseIICString)
     except:
-        #        print "\nWarning: parseCalculatorEvents(): some rows of ExtendedInfo is not a string"
-        #        return parseDefault(eInfo)
         return eInfo.apply(lambda x: errorCode)
     return res
