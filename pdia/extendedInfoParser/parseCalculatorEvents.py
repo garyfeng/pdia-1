@@ -49,9 +49,9 @@ def parseCalculatorKeystrokeLoggingEvents(eInfo):
     """
     assert (isinstance(eInfo, pd.Series))
     try:
-        eInfo = eInfo.str.replace('"model"', '"CalculatorModel') \
-                     .str.replace('"key"', '"CalculatorKey')\
-                     .str.replace('"val"', '"CalculatorCPUValue')
+        eInfo = eInfo.str.replace('"model"', '"CalculatorModel"') \
+                     .str.replace('"key"', '"CalculatorKey"')\
+                     .str.replace('"val"', '"CalculatorCPUValue"')
         res = eInfo.apply(parseJsonDatum)
     except:
         #        print "\nWarning: parseCalculatorEvents(): some rows of ExtendedInfo is not a string"

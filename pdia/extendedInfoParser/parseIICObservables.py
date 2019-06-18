@@ -56,19 +56,19 @@ def parseIICObservables(eInfo):
         '[{"ParamName":"version","Value":"5.14"},{"ParamName":"nativeWidth","Value":"1000"},...'
         return {"version":"5.14", "nativeWidth":"1000", ...}
         """
-        data = parseJsonDatum(s)
+        data = parseJsonDatum(s, flatten=False)
         res = dict()
         for kv in data:
             res[kv["ParamName"]] = kv["Value"]
         return res
     
     def parseIICString(x):
-        data = parseJsonDatum("["+str(x)+"]")
+        data = parseJsonDatum("["+str(x)+"]", flatten=False)
         try:
             res = data[2]
             res["t"] = data[1]
             if isinstance(res["s"], str) and res["s"].startswith('[{"ParamName"'):
-                res["s"] = makeKeyValuePairs(s)
+                res["s"] = makeKeyValuePairs(res["s"])
         except KeyError:
             return errorCode
         except IndexError:

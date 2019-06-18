@@ -28,9 +28,9 @@ def parseDifferentialKeystrokeLogging(eInfo):
     
     def parseKeyLog(s):
         try:
-            data = parseJsonDatum(s)
+            data = parseJsonDatum(s, flatten=False)
             r = {
-                "t": pd.to_datetime(data[0],unit='ms'),
+                "t": str(pd.to_datetime(data[0],unit='ms')),
                 "p": data[1],
                 "i": data[2].replace('""', ''),
                 "d": data[3].replace('""', ''),
