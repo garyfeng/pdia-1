@@ -1,3 +1,4 @@
+from pdia.extendedInfoParser.parseExtendedInfo import errorCode
 from pdia.extendedInfoParser.parseJSON import parseJsonDatum
 from pdia.extendedInfoParser.parseXMLContentDatum import parseXMLContentDatum
 
@@ -20,7 +21,10 @@ def parseDropChoice(eInfo):
 
     assert (isinstance(eInfo, object))
     try:
-        res = eInfo.apply(parseXMLContentDatum)
+        res = eInfo.apply(lambda x: {"DropChoiceResponse":parseJsonDatum(x, flatten=False)} )
     except:
-        res = eInfo.apply(parseJsonDatum, flatten=False)
-    return {"DropChoiceResponse": res}
+        try:
+            res = eInfo.apply(lambda x: {"DropChoiceResponse":parseXMLContentDatum(x)})
+        except:
+            return(eInfo.apply(errorCode))
+    return res
