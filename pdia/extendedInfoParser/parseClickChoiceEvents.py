@@ -13,6 +13,10 @@ def parseClickChoiceEvents(eInfo):
     The most complex case is "VH507370A-ii:4:checked"
     {"AccNum":"VH507370", "ItemPart": "A", "ItemSubPart": "ii", "ItemOption":"4", "ItemOptionStatus":"checked"}
 
+    In addition, we will add another field to the output that is 
+    {AccNum_ItemPart_ItemSubPart-ItemOption: ItemOptionStatus}
+    This will create a new column in the ST data frame for every option of every SR item.
+
     :param eInfo: a Pandas series containing ExtendedInfo events
     :return: a parsed series of JSON/DICT objects, or errorCode if error
     """
@@ -26,6 +30,11 @@ def parseClickChoiceEvents(eInfo):
             r = dict([(a, b) for a, b in \
                 zip(["AccNum", "ItemPart", "ItemSubPart", "ItemOption", "ItemOptionStatus"],\
                 res.groups())])
+            # create the accnum-option key
+            # when exploding to the ST format, this will create a column for each accnum*option
+            ao_key = "{AccNum}_{ItemPart}_{ItemSubPart}-{ItemOption}".format(**r)
+            r[ao_key] = r["ItemOptionStatus"]
+
         except:
             return None
         return r
