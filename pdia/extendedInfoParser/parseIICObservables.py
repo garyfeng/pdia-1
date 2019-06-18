@@ -74,6 +74,9 @@ def parseIICObservables(eInfo):
             return errorCode
         except IndexError:
             return errorCode
+        # rename keys
+        res["IICActionCode"] = res.pop("a")
+        res["IICState"] = res.pop("s")
         return flatten_dict(res)
         
     try:

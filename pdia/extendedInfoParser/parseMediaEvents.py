@@ -8,13 +8,16 @@ def parseMediaEvents(eInfo):
     """
     Parse the media events
 
-    :param eInfo: a pandas series of media related events
-    :returns: a pandas series with parsed JSon, or dict; errorCode if errors.
-    """
+    Typical ExtendedInfo field looks like the following.
+
     # array(['AudioComplete', '{"Id":"1","PlayPause":"1"}',
     #   '{"Id":"1","ReachedEnd":"1"}', '{"Id":"1","PlayPause":"0"}',
     #   'AudioStarted', '{"Id":"1","Captions":"0"}',
     #   '{"Id":"1","Captions":"1"}'], dtype=object)
+
+    :param eInfo: a pandas series of media related events
+    :returns: a pandas series with parsed JSon, or dict; errorCode if errors.
+    """
 
     assert (isinstance(eInfo, pd.Series))
     try:
@@ -28,8 +31,6 @@ def parseMediaEvents(eInfo):
             .str.replace('"Captions":"1"', '"event":"CaptionsOn"')
         res = eInfo.apply(parseJsonDatum)
     except:
-        #        print "\nWarning: parseMediaEvents: some rows of ExtendedInfo cannot be parsed"
-        #        return parseDefault(eInfo)
         res = eInfo.apply(lambda x: errorCode)
     return res
 
@@ -40,34 +41,27 @@ def parseMediaInteraction(eInfo):
     
     Media Interaction events in 2019 come in several flavors
     - a single string indicating the event, e.g., 'AudioComplete'
-    - a concatenated string of media event and the mediaID/screen name, e.g., 'AudioStarted-ScrInt8'
+    - a concatenated string of media event and the MediaID/screen name, e.g., 'AudioStarted-ScrInt8'
     - a JSON-like string, like '{"Id":"1","PlayPause":"1"}'
     
     We will parse them all, and return a series of JSON/dict objects with 2 keys:
-    - "mediaEvent": Play, Pause, CaptionsOn, CaptionsOff etc.
-    - "mediaID": typically some code for the screen or item the media is in, and media part number. 
+    - "MediaEvent": Play, Pause, CaptionsOn, CaptionsOff etc.
+    - "MediaID": typically some code for the screen or item the media is in, and media part number. 
       We do not further interpret this; just pass along. When no info is given, we skip this key
 
     :param eInfo: a pandas series of media related events
     :returns: a pandas series with parsed JSon, or dict; errorCode if errors.
     """
-    # array(['AudioComplete', '{"Id":"1","PlayPause":"1"}',
-    #   '{"Id":"1","ReachedEnd":"1"}', '{"Id":"1","PlayPause":"0"}',
-    #   'AudioStarted', '{"Id":"1","Captions":"0"}',
-    #   '{"Id":"1","Captions":"1"}',
-    #   'AudioStarted-ScrInt8', 'AudioComplete-ScrInt8'
-    # ], dtype=object)
-
     assert (isinstance(eInfo, pd.Series))
     
     def parseMediaString(s):
-        """Takes "AudioStarted-ToolInt1", returns "{'mediaId':'ToolInt1', 'mediaEvent':'AudioStarted'}"
+        """Takes "AudioStarted-ToolInt1", returns "{'mediaId':'ToolInt1', 'MediaEvent':'AudioStarted'}"
         """
         if not isinstance(s, str):
             return None
         slist = s.split("-")
-        res = '{{"mediaEvent":"{}"}}'.format(slist[0]) if len(slist)==1 else \
-            '{{"mediaID":"{}", "mediaEvent":"{}"}}'.format(slist[1], slist[0])
+        res = '{{"MediaEvent":"{}"}}'.format(slist[0]) if len(slist)==1 else \
+            '{{"MediaID":"{}", "MediaEvent":"{}"}}'.format(slist[1], slist[0])
         return res
     
     try:
@@ -75,19 +69,16 @@ def parseMediaInteraction(eInfo):
         idxNonJsonStr = ~ eInfo.str.startswith("{")
         # get rid of junk; restructure the JSON
         eInfo[idxJsonStr] = eInfo[idxJsonStr] \
-            .str.replace('"Id"', '"mediaID"') \
-            .str.replace('"PlayPause":"1"', '"mediaEvent":"Play"') \
-            .str.replace('"PlayPause":"0"', '"mediaEvent":"Paused"') \
-            .str.replace('"ReachedEnd":"1"', '"mediaEvent":"ReachedEnd"') \
-            .str.replace('"Captions":"0"', '"mediaEvent":"CaptionsOff"') \
-            .str.replace('"Captions":"1"', '"mediaEvent":"CaptionsOn"')
+            .str.replace('"Id"', '"MediaID"') \
+            .str.replace('"PlayPause":"1"', '"MediaEvent":"Play"') \
+            .str.replace('"PlayPause":"0"', '"MediaEvent":"Paused"') \
+            .str.replace('"ReachedEnd":"1"', '"MediaEvent":"ReachedEnd"') \
+            .str.replace('"Captions":"0"', '"MediaEvent":"CaptionsOff"') \
+            .str.replace('"Captions":"1"', '"MediaEvent":"CaptionsOn"')
         
         eInfo[idxNonJsonStr] = eInfo[idxNonJsonStr].apply(parseMediaString)
         
         res = eInfo.apply(parseJsonDatum)
     except:
-        #        print "\nWarning: parseMediaEvents: some rows of ExtendedInfo cannot be parsed"
-        #        return parseDefault(eInfo)
         res = eInfo.apply(lambda x: errorCode)
     return res
-    

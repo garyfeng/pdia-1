@@ -68,7 +68,7 @@ def parseEquationEditorButtonEvents(eInfo):
 
     assert (isinstance(eInfo, pd.Series))
     try:
-        eInfo = eInfo.str.replace('"what"', '"equationEditorButtonName"')
+        eInfo = eInfo.str.replace('"what"', '"EquationEditorButtonName"')
         res = eInfo.apply(parseJsonDatum)
     except:
         #        print "\nWarning: parseMediaEvents: some rows of ExtendedInfo cannot be parsed"

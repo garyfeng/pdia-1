@@ -5,7 +5,7 @@ from pdia.extendedInfoParser.parseJSON import parseJsonDatum
 
 
 def parseTextChange(eInfo):
-    """Parse First/Last text change from A,1 to {"ItemPart":"A", "TextBox":"1"}. Deprecated because we now use
+    """Parse First/Last text change from A,1 to {"ItemPart":"A", "TextBoxNumber":"1"}. Deprecated because we now use
     Differential Keystroke Logging events to capture all keypresses.
     
     :param eInfo: a Pandas Series (aka a list) of ExtendedInfo of the event
@@ -15,7 +15,7 @@ def parseTextChange(eInfo):
     try:
         section = eInfo.str.split(",").str.get(0)
         position = eInfo.str.split(",").str.get(1)
-        res = [{"ItemPart": s, "TextBox": p} for (s, p) in zip(section, position)]
+        res = [{"ItemPart": s, "TextBoxNumber": p} for (s, p) in zip(section, position)]
     except:
         res = eInfo.apply(lambda x: errorCode)
     return res
@@ -23,7 +23,7 @@ def parseTextChange(eInfo):
 
 def parseFocus(eInfo):
     """Parse "Receive Focus" and "Loose Focus" events. Typical ExtendedInfo field is like
-    "Part B, 1", or simply '1'. We will return something like: {"ItemPart":"B", "TextBox":"1"}
+    "Part B, 1", or simply '1'. We will return something like: {"ItemPart":"B", "TextBoxNumber":"1"}
     
     :param eInfo: a Pandas Series (aka a list) of ExtendedInfo of the event
     :return: a JSON with parsed properties; None if empty
@@ -31,15 +31,15 @@ def parseFocus(eInfo):
 
     def parseFucusString(s):
         """"Parse "Receive Focus" and "Loose Focus" events. Typical ExtendedInfo field is like
-        "Part B, 1", or simply '1'. We will return something like: {"ItemPart":"B", "TextBox":1}
+        "Part B, 1", or simply '1'. We will return something like: {"ItemPart":"B", "TextBoxNumber":1}
         """
         if not isinstance(s, str):
             return None
-        data = s.split(", ")
+        data = s.replace("Part ", "").split(", ")
         if len(data)==1:
-            r = {"TextBox":"{}".format(data[0])}
+            r = {"TextBoxNumber":"{}".format(data[0])}
         elif len(data)==2:
-            r = {"ItemPart":"{}".format(data[0]), "TextBox":"{}".format(data[1])}
+            r = {"ItemPart":"{}".format(data[0]), "TextBoxNumber":"{}".format(data[1])}
         else:
             # something is wrong
             r = errorCode
