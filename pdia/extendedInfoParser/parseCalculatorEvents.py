@@ -51,6 +51,7 @@ def parseCalculatorKeystrokeLoggingEvents(eInfo):
     try:
         eInfo = eInfo.str.replace('"model"', '"CalculatorModel"') \
                      .str.replace('"key"', '"CalculatorKey"')\
+                     .str.replace('"screen"', '"CalculatorScreen"')\
                      .str.replace('"val"', '"CalculatorCPUValue"')
         res = eInfo.apply(parseJsonDatum)
     except:
