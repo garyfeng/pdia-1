@@ -8,7 +8,7 @@ def readme():
         return f.read()
 
 
-__version__ = '0.70'
+__version__ = '0.71'
 
 
 setup(name='pdia',
