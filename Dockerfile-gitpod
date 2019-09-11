@@ -8,5 +8,5 @@ FROM jupyter/base-notebook:9e8682c9ea54
 # RUN pip install -U pip Cython
 
 # Without switching users, there are some permissions problems
-USER root
+# USER root
 
