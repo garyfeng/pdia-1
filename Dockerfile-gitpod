@@ -3,7 +3,7 @@ FROM gitpod/workspace-full:latest
 USER gitpod
 
 # Install custom tools, runtime, etc.
-RUN pip install -U pip Cython
+RUN pip3 install -U pip Cython
 
 # Without switching users, there are some permissions problems
 USER root
@@ -28,13 +28,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
 
 # Momentarily switch to the normal user to install requirements from PyPi
 # USER gitpod
-RUN pip install git+https://github.com/pymssql/pymssql.git && \
-    pip install -r requirements.txt
+RUN pip3 install git+https://github.com/pymssql/pymssql.git && \
+    pip3 install -r requirements.txt
 # USER root
 
 # Run setup and install punkt module as described in Wiki
 # Clean up unnecessary files
-RUN python setup.py install && \
+RUN python3 setup.py install && \
     conda install -c conda-forge pyarrow && \
     conda clean -tipsy
 # Exit and delete temporary folder
