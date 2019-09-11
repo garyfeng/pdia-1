@@ -22,15 +22,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
     freetds-dev \
     libopenblas-dev \
     git \
-    g++ 
+    g++ \
+    wget
+    
     # && \
     # rm -rf /var/lib/apt/lists/*
 
+# Install Anaconda
+RUN apt-get install -y --no-install-recommends\
+    libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+RUN bash ~/miniconda.sh -b -p $HOME/miniconda    
+RUN rm miniconda.sh
+
 # Momentarily switch to the normal user to install requirements from PyPi
-# USER gitpod
+USER gitpod
+
 RUN pip3 install git+https://github.com/pymssql/pymssql.git && \
     pip3 install -r requirements.txt
-# USER root
 
 # Run setup and install punkt module as described in Wiki
 # Clean up unnecessary files
