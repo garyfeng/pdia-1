@@ -33,10 +33,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
 # Momentarily switch to the normal user to install requirements from PyPi
 USER gitpod
 
-RUN pip3 install git+https://github.com/pymssql/pymssql.git && \
-    pip3 install -r requirements.txt &&\
-    pip3 install pyarrow
-
 # Install pdia
 # Copy necessary files from this directory into temporary folder
 # Use the .dockerignore file to designate exceptions
@@ -44,9 +40,15 @@ COPY . ./src/
 # Move into the temporary folder for installation
 WORKDIR ./src
 
+# install required libraries
+RUN pip3 install git+https://github.com/pymssql/pymssql.git && \
+    pip3 install -r requirements.txt &&\
+    pip3 install pyarrow
+
 # Run setup and install punkt module as described in Wiki
 # Clean up unnecessary files
 RUN python3 setup.py install 
+
 # Exit and delete temporary folder
 WORKDIR ..
 # RUN rm -d -r src/
