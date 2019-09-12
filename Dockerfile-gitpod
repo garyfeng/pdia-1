@@ -47,6 +47,7 @@ RUN pip3 install git+https://github.com/pymssql/pymssql.git && \
 
 # Run setup and install punkt module as described in Wiki
 # Clean up unnecessary files
+USER root
 RUN python3 setup.py install 
 
 # Exit and delete temporary folder
