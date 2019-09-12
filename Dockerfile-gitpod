@@ -8,13 +8,6 @@ RUN pip3 install -U pip Cython
 # Without switching users, there are some permissions problems
 USER root
 
-# Copy necessary files from this directory into temporary folder
-# Use the .dockerignore file to designate exceptions
-COPY . ./src/
-
-# Move into the temporary folder for installation
-WORKDIR ./src
-
 # Install necessary libraries to successfully install pdia requirements
 RUN apt-get update && apt-get install -y --no-install-recommends\
     python3-dev \
@@ -42,6 +35,13 @@ USER gitpod
 
 RUN pip3 install git+https://github.com/pymssql/pymssql.git && \
     pip3 install -r requirements.txt
+
+# Install pdia
+# Copy necessary files from this directory into temporary folder
+# Use the .dockerignore file to designate exceptions
+COPY . ./src/
+# Move into the temporary folder for installation
+WORKDIR ./src
 
 # Run setup and install punkt module as described in Wiki
 # Clean up unnecessary files
