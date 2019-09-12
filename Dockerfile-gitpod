@@ -22,19 +22,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
     # rm -rf /var/lib/apt/lists/*
 
 # Install Anaconda
-RUN apt-get install -y --no-install-recommends\
-    libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+# RUN apt-get install -y --no-install-recommends\
+#    libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
+# RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
 # need to switch user to install to the right directory
-USER gitpod
-RUN bash ~/miniconda.sh -b -p $HOME/miniconda    
-RUN rm ~/miniconda.sh
+# USER gitpod
+# RUN bash ~/miniconda.sh -b -p $HOME/miniconda    
+# RUN rm ~/miniconda.sh
 
 # Momentarily switch to the normal user to install requirements from PyPi
 USER gitpod
 
 RUN pip3 install git+https://github.com/pymssql/pymssql.git && \
-    pip3 install -r requirements.txt
+    pip3 install -r requirements.txt &&\
+    pip3 install pyarrow
 
 # Install pdia
 # Copy necessary files from this directory into temporary folder
@@ -45,9 +46,7 @@ WORKDIR ./src
 
 # Run setup and install punkt module as described in Wiki
 # Clean up unnecessary files
-RUN python3 setup.py install && \
-    conda install -c conda-forge pyarrow && \
-    conda clean -tipsy
+RUN python3 setup.py install 
 # Exit and delete temporary folder
 WORKDIR ..
 # RUN rm -d -r src/
