@@ -6,3 +6,4 @@ dpath==1.4.2
 lxml==4.2.5
 pymssql==2.1.4
 pyodbc==4.0.24
+pyarrow
