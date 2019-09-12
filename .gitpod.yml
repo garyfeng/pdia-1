@@ -1,2 +1,7 @@
-image:
-  file: Dockerfile-gitpod
+#image:
+#  file: Dockerfile-gitpod
+image: gitpod/workspace-full
+
+task:
+    - init: pip3 install -r requirements.txt && python3 setup.py install
+    
