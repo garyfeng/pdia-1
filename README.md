@@ -1,9 +1,9 @@
-# pdia, a Python library for Process Data in Assessment
+# pdia, a Python library for NAEP Process Data
 Proncounced like wikipedia without wiki.
 
 ----
 
-The `pdia` library began in 2015 as an internal tool at Educational Testing Service (ETS) to transform and analyze process data (aka observables or action logs) from the NAEP digitally-based assessments (DBAs). It provides functions to read the NAEP process data from a variety sources, convert and parse them to Pandas data frames, and visualize and report on the data. As the NAEP process data becoming more accessible to the educatinal researchers, the development of `pdia` is now to this public GitHub repository, under the MIT license. 
+The `pdia` (*P*rocess *D*ata *i*n *A*ssessment) library began in 2015 as an internal tool at Educational Testing Service (ETS) to transform and analyze process data (aka observables or action logs) from the NAEP digitally-based assessments (DBAs). It provides functions to read the NAEP process data from a variety sources, convert and parse them to Pandas data frames, and visualize and report on the data. As the NAEP process data becoming more accessible to the educatinal researchers, the development of `pdia` is now to this public GitHub repository, under the MIT license. 
 
 Our goal is to offer the research community an official, standardized, and high-quality tool -- the same codebase supporting operational NAEP assessments -- to jumpstart their investigations. The public release focuses on the most time-consuming and error-prone aspects of working with NAEP process data, namely parsing the process data logs to extract and transform feature values. This is challenging not only for 3rd-party researchers but also for the operational program, as the NAEP assessment and data structure evolve from one year to the next. We sometimes have to create and maintain different code branches for different years' data.  
 
@@ -38,7 +38,12 @@ Either way, you want to make sure you have activated the right python environmen
 - TODO: [add text]
 
 ---
-## Generating requirements.txt
+# GitPod support
+
+The current repository supports in-browser editing, testing, and PR using `GitPod`. This can be done through the following URL http://gitpod.io/#https://github.com/NAEPDEV/pdia. This will launch a docker (see `.\Dockerfile-gitpod`) with `pdia` and other required libraries installed for gitpod. 
+
+---
+# Generating requirements.txt
 
 To get the precise requirements for versions of libraries, etc. We use the `pipreqs`
 [library](https://github.com/bndr/pipreqs). Assuming the path
@@ -51,7 +56,7 @@ pipreqs $path
 
 This will (re)generate `$path/requirements.txt` file.
 
-## Generating code-level documents with Sphinx
+# Generating code-level documents with Sphinx
 
 `pdia` uses docstrings and `Sphinx` for documentation. To (re)generate API documents from the source code, make sure you install sphinx following [this]( https://developer.ridgerun.com/wiki/index.php/How_to_generate_sphinx_documentation_for_python_code_running_in_an_embedded_system) or other instructions.
 
