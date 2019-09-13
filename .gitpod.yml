@@ -1,5 +1,5 @@
 image: 
-  file: dockerfile-gitpod2
+  file: Dockerfile-gitpod
 # image: gitpod/workspace-full
 
 tasks:
