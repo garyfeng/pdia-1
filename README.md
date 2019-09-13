@@ -1,36 +1,43 @@
 # pdia, a Python library for Process Data in Assessment
 Proncounced like wikipedia without wiki.
 
-```
-Gary Feng, Fred Yan
-Princeton, NJ
-```
-
 ----
 
+The `pdia` library began in 2015 as an internal tool at Educational Testing Service (ETS) to transform and analyze process data (aka observables or action logs) from the NAEP digitally-based assessments (DBAs). It provides functions to read the NAEP process data from a variety sources, convert and parse them to Pandas data frames, and visualize and report on the data. As the NAEP process data becoming more accessible to the educatinal researchers, the development of `pdia` is now to this public GitHub repository, under the MIT license. 
 
-`pdia` began in 2015 as a python library to process and analyze the process data (aka proc data, observables, or action logs) from the NAEP digitally-based assessments (DBAs). It provides functions to read the NAEP process data from a variety sources, convert and parse them to Pandas data frames, and visualize and report on the data.
+Our goal is to offer the research community an official, standardized, and high-quality tool -- the same codebase supporting operational NAEP assessments -- to jumpstart their investigations. The public release focuses on the most time-consuming and error-prone aspects of working with NAEP process data, namely parsing the process data logs to extract and transform feature values. This is challenging not only for 3rd-party researchers but also for the operational program, as the NAEP assessment and data structure evolve from one year to the next. We sometimes have to create and maintain different code branches for different years' data.  
+
+Most data scientists will use `pdia` in a Jupyter notebook environment, for which we provide a `Dockerfile` that standardizes a python3 environment with Jupyter and all the necessary libraries. The library is also used in production, where for example, we used AWS Lambda functions with `pdia` to process a year's worth of NAEP operational data. This dual-focus on research flexibility and production scalability drives many design decisions of `pdia`, which may not always be intuitive at the outset. 
 
 ----
 
 # Installation
 
-## Anaconda and virtual environments
-
-We recommend the following setup in your system:
-
-### Python 3.x
-
-- TODO: [ to be added ]
-
-## installation methods
-
-`pdia` is a standard python library but not available on `pip`. You can install in several ways. Make sure you download the right branch of `pdia`. In most cases you should use `main` but for on-going projects you may need to load a special branch.
+`pdia` can be used in several ways:
+- Docker: this is how we use `pdia` in our data science team; **recommended**
+- python installation via setup.py or pip install
+- AWS Lambda
 
 ### Recommended: docker installation
 
-- TODO: [add text about docker]
+We provide a `Dockerfile` that defines the standardized development environment we use in our NAEP operational work. This is based on the official Jupyter docker container with `pdia` and other frequently used statistical, ML, and plotting libraries pre-installed. 
 
+To make it even easier for users, we provided shell (or Windows .bat) scripts for different operating systems under the `docker` folder. Double-click the appropriate script for your OS, you will be prompted to choose among a few different `pdia` environments in the terminal. Make a choice (**always choose `py3`**), and a Jupyter notebook will automatically start in your default browser on your computer. The Jupyter notebook server runs off the docker container you chose; if this is the first time you launch the docker image, it will be automatically pulled down. 
+
+### Standard python install
+
+Because `pdia` is a standard python library, you don't need docker to install it on your computer. You can do this in two ways.
+
+- download the source from this Github repository, then do `python setup.py install`. 
+- run something like `pip install --user git+https://github.com/NAEPDEV/pdia.git@2019-math` to directly install a particular branch from Github. This method works inside a Jupyter Notebook if you add `!` before the shell command.
+
+Either way, you want to make sure you have activated the right python environment before you install. We recommend using `conda` to manage your virtualenv. You want to use a python3 for this.
+
+### AWS Lambda
+
+- TODO: [add text]
+
+---
 ## Generating requirements.txt
 
 To get the precise requirements for versions of libraries, etc. We use the `pipreqs`
