@@ -20,9 +20,12 @@ Most data scientists will use `pdia` in a Jupyter notebook environment, for whic
 
 ### Recommended: docker installation
 
-We provide a `Dockerfile` that defines the standardized development environment we use in our NAEP operational work. This is based on the official Jupyter docker container with `pdia` and other frequently used statistical, ML, and plotting libraries pre-installed. 
+We provide the "official" `Dockerfile` that defines the standardized development environment we use in our NAEP operational work. This is based on the official Jupyter docker container with `pdia` and other frequently used statistical, ML, and plotting libraries pre-installed. 
 
-To make it even easier for users, we provided shell (or Windows .bat) scripts for different operating systems under the `docker` folder. Double-click the appropriate script for your OS, you will be prompted to choose among a few different `pdia` environments in the terminal. Make a choice (**always choose `py3`**), and a Jupyter notebook will automatically start in your default browser on your computer. The Jupyter notebook server runs off the docker container you chose; if this is the first time you launch the docker image, it will be automatically pulled down. 
+Here are three ways you can build/use the `pdia` docker:
+- You can build the docker container from the `Dockerfile` following the standard `docker build` steps. 
+- Or you can pull the pre-built docker image from https://cloud.docker.com/u/naep/repository/docker/naep/pdia
+- To make it even easier for users, we provided shell (or Windows .bat) scripts for different operating systems under the `docker` folder. Double-click the appropriate script for your OS, you will be prompted to choose among a few different `pdia` environments in the terminal. Make a choice (**always choose `py3`**), and a Jupyter notebook will automatically start in your default browser on your computer. The Jupyter notebook server runs off the docker container you chose; if this is the first time you launch the docker image, it will be automatically pulled down. 
 
 ### Standard python install
 
@@ -42,8 +45,19 @@ Either way, you want to make sure you have activated the right python environmen
 
 The current repository supports in-browser editing, testing, and PR using `GitPod`. This can be done through the following URL http://gitpod.io/#https://github.com/NAEPDEV/pdia. This will launch a docker (see `.\Dockerfile-gitpod`) with `pdia` and other required libraries installed for gitpod. 
 
----
-# Generating requirements.txt
+----
+# Data Sources, Data Processing, etc.
+
+- the 2019 NAEP Data Mining 2019 Competition (https://sites.google.com/view/dataminingcompetition2019/home)
+- TODO: additional data releases and data sources
+
+----
+
+# Development
+
+This library is maintained by the NAEP Process Data team at ETS, under MIT license. Please fork, report issues, and do pull requests.
+
+## Generating requirements.txt
 
 To get the precise requirements for versions of libraries, etc. We use the `pipreqs`
 [library](https://github.com/bndr/pipreqs). Assuming the path
@@ -56,7 +70,7 @@ pipreqs $path
 
 This will (re)generate `$path/requirements.txt` file.
 
-# Generating code-level documents with Sphinx
+## Generating code-level documents with Sphinx
 
 `pdia` uses docstrings and `Sphinx` for documentation. To (re)generate API documents from the source code, make sure you install sphinx following [this]( https://developer.ridgerun.com/wiki/index.php/How_to_generate_sphinx_documentation_for_python_code_running_in_an_embedded_system) or other instructions.
 
@@ -70,12 +84,4 @@ make html
 ```  
 ----
 
-# Data Sources, Data Processing, etc.
-
-- TODO: [add text]
-
-----
-
-# Development
-
-This library is maintained by Gary Feng (gary.feng@gmail.com). Because of the differences year-over-year, we likely will maintain different branches for each year of the data rather than keeping everything backward compatible, until we can stabilize the data structure for NAEP.
+ Contact: Gary Feng (gary.feng@gmail.com). 
