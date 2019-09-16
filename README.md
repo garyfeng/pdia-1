@@ -40,11 +40,6 @@ Either way, you want to make sure you have activated the right python environmen
 
 - TODO: [add text]
 
----
-# GitPod support
-
-The current repository supports in-browser editing, testing, and PR using `GitPod`. This can be done through the following URL http://gitpod.io/#https://github.com/NAEPDEV/pdia. This will launch a docker (see `.\Dockerfile-gitpod`) with `pdia` and other required libraries installed for gitpod. 
-
 ----
 # Data Sources, Data Processing, etc.
 
@@ -56,6 +51,10 @@ The current repository supports in-browser editing, testing, and PR using `GitPo
 # Development
 
 This library is maintained by the NAEP Process Data team at ETS, under MIT license. Please fork, report issues, and do pull requests.
+
+## GitPod support
+
+The current repository supports in-browser editing, testing, and PR using `GitPod`. This can be done through the following URL http://gitpod.io/#https://github.com/NAEPDEV/pdia. This will launch a docker (see `.\Dockerfile-gitpod`) with `pdia` and other required libraries installed for gitpod. 
 
 ## Generating requirements.txt
 
